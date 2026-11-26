@@ -1,19 +1,19 @@
 import React from "react";
 import { assets } from "../assets/assets";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Carcard = ({ car }) => {
   const currency = import.meta.env.VITE_CURRENCY;
 
-  const navigate = useNavigate();
-
   return (
-    <div
-      onClick={() => {
-        navigate(`/car-details/${car._id}`);
-        scrollTo(0, 0);
+    <Link
+      to={`/car-details/${car._id}`}
+      onClick={(event) => {
+        if (!event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey) {
+          window.scrollTo(0, 0);
+        }
       }}
-      className="group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer"
+      className="group block rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
     >
       <div className="relative h-48 overflow-hidden">
         <img
@@ -71,7 +71,7 @@ const Carcard = ({ car }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
