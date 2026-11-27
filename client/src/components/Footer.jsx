@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { assets } from "../assets/assets";
 
 const Footer = () => {
@@ -12,16 +13,16 @@ const Footer = () => {
             everyday vehicles for all your driving needs.
           </p>
           <div className="flex items-center gap-3 mt-6">
-            <a href="#">
+            <a href="#" aria-label="Facebook">
               <img src={assets.facebook_logo} className="w-5 h-5" alt="" />
             </a>
-            <a href="#">
+            <a href="#" aria-label="Instagram">
               <img src={assets.instagram_logo} className="w-5 h-5" alt="" />
             </a>
-            <a href="#">
+            <a href="#" aria-label="Twitter">
               <img src={assets.twitter_logo} className="w-5 h-5" alt="" />
             </a>
-            <a href="#">
+            <a href="#" aria-label="Email">
               <img src={assets.gmail_logo} className="w-5 h-5" alt="" />
             </a>
           </div>
@@ -33,13 +34,13 @@ const Footer = () => {
           </h2>
           <ul className="mt-3 flex flex-col gap-1.5">
             <li>
-              <a href="#">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="#">Browse Cars</a>
+              <Link to="/cars">Browse Cars</Link>
             </li>
             <li>
-              <a href="#">List Your Car</a>
+              <Link to="/owner/add-car">List Your Car</Link>
             </li>
             <li>
               <a href="#">About Us</a>

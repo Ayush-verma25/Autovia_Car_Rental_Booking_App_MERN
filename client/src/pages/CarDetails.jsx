@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { assets, dummyCarData } from "../assets/assets";
-import Loader from "../components/Loader";
 
 const CarDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [car, setCar] = useState(null);
+  const car = dummyCarData.find((car) => car._id === id);
   const currency = import.meta.env.VITE_CURRENCY;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  };
-
-  useEffect(() => {
-    setCar(dummyCarData.find((car) => car._id === id));
-  }, [id]);
+  const today = new Date();
+  const [month, day] = [today.getMonth() + 1, today.getDate()].map((part) =>
+    String(part).padStart(2, "0"),
+  );
+  const pickupMin = `${today.getFullYear()}-${month}-${day}`;
 
   return car ? (
     <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-16">
@@ -93,9 +90,8 @@ const CarDetails = () => {
           </div>
         </div>
 
-        {/* Right: Booking Form */}
-        <form
-          onSubmit={handleSubmit}
+        {/* Right: Booking */}
+        <div
           className="shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500"
         >
           <p className="flex items-center justify-between text-2xl text-gray-800 font-semibold">
@@ -114,9 +110,8 @@ const CarDetails = () => {
             <input
               type="date"
               className="border border-borderColor px-3 py-2 rounded-lg"
-              required
               id="pickup-date"
-              min={new Date().toISOString().split("T")[0]}
+              min={pickupMin}
             />
           </div>
 
@@ -125,23 +120,32 @@ const CarDetails = () => {
             <input
               type="date"
               className="border border-borderColor px-3 py-2 rounded-lg"
-              required
               id="return-date"
             />
           </div>
 
-          <button className="w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer">
+          <button
+            type="button"
+            disabled
+            aria-describedby="booking-status"
+            className="w-full bg-primary py-3 font-medium text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Book Now
           </button>
 
-          <p className="text-center text-sm">
-            No Cradit Card required to Reserve.
+          <p id="booking-status" className="text-center text-sm">
+            Online booking is currently unavailable.
           </p>
-        </form>
+        </div>
       </div>
     </div>
   ) : (
-    <Loader />
+    <div className="px-6 py-16 text-center">
+      <h1 className="text-2xl font-semibold">Car not found</h1>
+      <Link to="/cars" className="mt-4 inline-block text-primary underline">
+        Browse Cars
+      </Link>
+    </div>
   );
 };
 

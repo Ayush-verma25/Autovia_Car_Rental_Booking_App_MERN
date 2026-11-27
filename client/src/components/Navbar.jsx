@@ -38,7 +38,10 @@ const Navbar = ({ setShowLogin }) => {
             DashBoard
           </button>
           <button
-            onClick={() => setShowLogin(true)}
+            onClick={(event) => {
+              event.currentTarget.focus();
+              setShowLogin(true);
+            }}
             className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg "
           >
             Login

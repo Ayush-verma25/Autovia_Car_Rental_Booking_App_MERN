@@ -5,6 +5,21 @@ import Carcard from "../components/Carcard";
 
 const Cars = () => {
   const [input, setInput] = useState("");
+  const query = input.trim().toLowerCase();
+  const filteredCars = dummyCarData.filter((car) =>
+    [
+      car.brand,
+      car.model,
+      car.category,
+      car.fuel_type,
+      car.transmission,
+      car.location,
+    ]
+      .map((field) => field.trim())
+      .join(" ")
+      .toLowerCase()
+      .includes(query),
+  );
 
   return (
     <div className="">
@@ -17,7 +32,7 @@ const Cars = () => {
         <div className="flex items-center bg-white px-4 mt-6 max-w-140 w-full h-12 rounded-full shadow">
           <img src={assets.search_icon} alt="" className="w-4.5 h-4.5 mr-2" />
           <input
-            onClick={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
             value={input}
             type="text"
             placeholder="Search by Brand, model, or features"
@@ -29,12 +44,12 @@ const Cars = () => {
 
       <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-10">
         <p className="text-gray-500 xl:px-20 max-w-7xl mx-auto">
-          Showing {dummyCarData.length} Cars
+          Showing {filteredCars.length} Cars
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 xl:px-20 max-w-7xl mx-auto">
-          {dummyCarData.map((car, index) => (
-            <div key={index}>
+          {filteredCars.map((car) => (
+            <div key={car._id}>
               <Carcard car={car} />
             </div>
           ))}

@@ -57,6 +57,14 @@ const Sidebar = () => {
     <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
       <div className="group relative">
         <label htmlFor="image">
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            className="peer sr-only"
+            aria-label="Change profile image"
+            onChange={handleImageChange}
+          />
           <img
             src={
               previewUrl ||
@@ -64,14 +72,7 @@ const Sidebar = () => {
               "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=300"
             }
             alt={`${user?.name || "Owner"} profile`}
-            className="h-9 md:h-14 w-9 md:w-14 rounded-full mx-auto"
-          />
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            hidden
-            onChange={handleImageChange}
+            className="h-9 md:h-14 w-9 md:w-14 rounded-full mx-auto peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary"
           />
 
           <div className="absolute hidden top-0 right-0 left-0 bottom-0 bg-black/10 rounded-full group-hover:flex items-center justify-center cursor-pointer">
@@ -104,7 +105,7 @@ const Sidebar = () => {
             {({ isActive }) => (
               <>
                 <img src={isActive ? link.coloredIcon : link.icon} alt="" />
-                <span className="max-md:hidden">{link.name}</span>
+                <span className="sr-only md:not-sr-only">{link.name}</span>
 
                 <div
                   className={`${isActive ? "bg-primary" : ""} w-1.5 rounded-l right-0 absolute`}
