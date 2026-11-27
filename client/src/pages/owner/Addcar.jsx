@@ -60,7 +60,10 @@ const Addcar = () => {
       >
         {/* Car Image */}
         <div className="flex items-center gap-2 w-full">
-          <label htmlFor="car-image">
+          <label
+            htmlFor="car-image"
+            className="relative focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
+          >
             <img
               src={imagePreview || assets.upload_icon}
               alt=""
@@ -70,11 +73,14 @@ const Addcar = () => {
               type="file"
               id="car-image"
               accept="image/*"
-              hidden
+              className="sr-only"
+              aria-labelledby="car-image-label"
               onChange={handleImageChange}
             />
           </label>
-          <p className="text-sm text-gray-500">Upload a picture of your car.</p>
+          <p id="car-image-label" className="text-sm text-gray-500">
+            Upload a picture of your car.
+          </p>
         </div>
 
         {/* Car brand and model */}
@@ -243,8 +249,12 @@ const Addcar = () => {
           ></textarea>
         </div>
 
-        <button className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer">
-          <img src={assets.tick_icon} alt="" />
+        <p>Listing creation is currently unavailable.</p>
+        <button
+          type="submit"
+          disabled
+          className="px-4 py-2.5 bg-primary text-white rounded-md font-medium w-max opacity-50 cursor-not-allowed"
+        >
           List Your Car
         </button>
       </form>

@@ -7,12 +7,12 @@ export const protect = async (req, res, next) => {
     return res.json({ success: false, message: "not authorized!" });
   }
   try {
-    const userId = jwt.decode(token, process.env.JWT_SECRET);
+    const userId = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!userId) {
+    if (typeof userId !== "string" || !userId) {
       return res.json({ success: false, message: "not authorized!" });
     }
-    req.user = await User.findById(userId).select("-passaword");
+    req.user = await User.findById(userId).select("-password");
     next();
   } catch (error) {
     return res.json({ success: false, message: "not authorized!" });

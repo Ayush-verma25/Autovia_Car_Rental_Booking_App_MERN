@@ -33,11 +33,11 @@ const ManageCars = () => {
                     className="h-12 w-12 aspect-square rounded-md object-cover"
                   />
 
-                  <div className="max-md:hidden">
+                  <div className="max-md:sr-only">
                     <p className="font-medium">
                       {car.brand} {car.model}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 max-md:hidden">
                       {car.seating_capacity} • {car.transmission}
                     </p>
                   </div>
@@ -63,13 +63,8 @@ const ManageCars = () => {
                       car.isAvaliable ? assets.eye_close_icon : assets.eye_icon
                     }
                     alt=""
-                    className="cursor-pointer"
                   />
-                  <img
-                    src={assets.delete_icon}
-                    alt=""
-                    className="cursor-pointer"
-                  />
+                  <img src={assets.delete_icon} alt="" />
                 </td>
               </tr>
             ))}

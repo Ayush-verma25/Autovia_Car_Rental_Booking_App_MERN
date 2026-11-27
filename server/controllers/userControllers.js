@@ -26,6 +26,13 @@ export const registerUser = async (req, res) => {
         .json({ success: false, message: "fill all the fields!" });
     }
 
+    if (Buffer.byteLength(password, "utf8") > 72) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at most 72 UTF-8 bytes.",
+      });
+    }
+
     const normalizedEmail = email.trim();
     const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) {
@@ -61,6 +68,13 @@ export const loginUser = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "fill all the fields!" });
+    }
+
+    if (Buffer.byteLength(password, "utf8") > 72) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at most 72 UTF-8 bytes.",
+      });
     }
 
     const user = await User.findOne({ email: email.trim() });

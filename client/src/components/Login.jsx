@@ -1,33 +1,79 @@
 import React from "react";
 
 const Login = ({ setShowLogin }) => {
+  const dialogRef = React.useRef(null);
+  const id = React.useId();
   const [state, setState] = React.useState("login");
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const onSubmitHandler = async (event) => {
+  React.useLayoutEffect(() => {
+    const dialog = dialogRef.current;
+    dialog.showModal();
+    return () => dialog.close();
+  }, []);
+
+  const closeDialog = () => {
+    dialogRef.current.close();
+    setShowLogin(false);
+  };
+
+  const onSubmitHandler = (event) => {
     event.preventDefault();
   };
 
+  const handleTab = (event) => {
+    if (event.key !== "Tab") return;
+
+    const controls = event.currentTarget.querySelectorAll(
+      "button:enabled, input:enabled",
+    );
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && event.target === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && event.target === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
   return (
-    <div
-      onClick={() => setShowLogin(false)}
-      className="fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center text-sm text-gray-600 bg-black/50"
+    <dialog
+      ref={dialogRef}
+      aria-labelledby={`${id}-title`}
+      onCancel={(event) => {
+        event.preventDefault();
+        closeDialog();
+      }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) closeDialog();
+      }}
+      onKeyDown={handleTab}
+      className="m-auto w-80 max-w-[calc(100%_-_2rem)] rounded-lg bg-white sm:w-88 text-sm text-gray-600 backdrop:bg-black/50"
     >
       <form
         onSubmit={onSubmitHandler}
-        onClick={(e) => e.stopPropagation()}
-        className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-88 text-gray-500 rounded-lg shadow-xl border border-gray-200 bg-white"
+        className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-full text-gray-500 rounded-lg shadow-xl border border-gray-200 bg-white"
       >
-        <p className="text-2xl font-medium m-auto">
+        <button
+          type="button"
+          className="self-end text-primary cursor-pointer"
+          onClick={closeDialog}
+        >
+          Close
+        </button>
+        <h2 id={`${id}-title`} className="text-2xl font-medium m-auto">
           <span className="text-primary">User</span>{" "}
           {state === "login" ? "Login" : "Sign Up"}
-        </p>
+        </h2>
         {state === "register" && (
           <div className="w-full">
-            <p>Name</p>
+            <label htmlFor={`${id}-name`}>Name</label>
             <input
+              id={`${id}-name`}
               onChange={(e) => setName(e.target.value)}
               value={name}
               placeholder="type here"
@@ -38,8 +84,9 @@ const Login = ({ setShowLogin }) => {
           </div>
         )}
         <div className="w-full ">
-          <p>Email</p>
+          <label htmlFor={`${id}-email`}>Email</label>
           <input
+            id={`${id}-email`}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             placeholder="type here"
@@ -49,8 +96,9 @@ const Login = ({ setShowLogin }) => {
           />
         </div>
         <div className="w-full ">
-          <p>Password</p>
+          <label htmlFor={`${id}-password`}>Password</label>
           <input
+            id={`${id}-password`}
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             placeholder="type here"
@@ -62,29 +110,36 @@ const Login = ({ setShowLogin }) => {
         {state === "register" ? (
           <p>
             Already have account?{" "}
-            <span
+            <button
+              type="button"
               onClick={() => setState("login")}
               className="text-primary cursor-pointer"
             >
-              click here
-            </span>
+              Log in
+            </button>
           </p>
         ) : (
           <p>
             Create an account?{" "}
-            <span
+            <button
+              type="button"
               onClick={() => setState("register")}
               className="text-primary cursor-pointer"
             >
-              click here
-            </span>
+              Sign up
+            </button>
           </p>
         )}
-        <button className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
+        <p>Login and account creation are currently unavailable.</p>
+        <button
+          type="submit"
+          disabled
+          className="bg-primary text-white w-full py-2 rounded-md opacity-50 cursor-not-allowed"
+        >
           {state === "register" ? "Create Account" : "Login"}
         </button>
       </form>
-    </div>
+    </dialog>
   );
 };
 

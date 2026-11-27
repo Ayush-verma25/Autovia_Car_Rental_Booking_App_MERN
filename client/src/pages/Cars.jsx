@@ -15,6 +15,7 @@ const Cars = () => {
       car.transmission,
       car.location,
     ]
+      .map((field) => field.trim())
       .join(" ")
       .toLowerCase()
       .includes(query),

@@ -19,8 +19,12 @@ const ManageBookings = () => {
     <div className="min-w-0 flex-1 px-4 py-10 md:px-10">
       <Title
         title="Manage Bookings"
-        subTitle="Track all customer bookings, approve or cancel requests, and manage bookings statuses."
+        subTitle="Track customer bookings and view their current status."
       />
+
+      <p id="booking-status-note" className="mt-4 text-sm text-gray-600">
+        Booking status updates are currently unavailable.
+      </p>
 
       <div className="max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6">
         <table className="w-full border-collapse text-left text-sm text-gray-600">
@@ -45,7 +49,7 @@ const ManageBookings = () => {
                     alt=""
                     className="h-12 w-12 aspect-square rounded-md object-cover"
                   />
-                  <p className="font-medium max-md:hidden">
+                  <p className="font-medium max-md:sr-only">
                     {booking.car.brand} {booking.car.model}
                   </p>
                 </td>
@@ -69,6 +73,9 @@ const ManageBookings = () => {
                 <td className="p-3">
                   {booking.status === "pending" ? (
                     <select
+                      disabled
+                      aria-label="Booking status"
+                      aria-describedby="booking-status-note"
                       value={booking.status}
                       className="px-2 py-1.5 mt-1 text-gray-500 border border-borderColor rounded-md outline-none"
                     >
